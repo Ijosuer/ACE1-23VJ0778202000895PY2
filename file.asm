@@ -1,3 +1,4 @@
+include funcs.asm
 NADA        equ      00
 JUGADOR     equ      01
 PARED       equ      02
@@ -81,6 +82,10 @@ data_sprite_mario   db 0F,40,40,40,40,40,0F,0F
                                 db 40,53,40,53,40,0F,0F,0F
                                 db 0F,53,53,53,0F,0F,0F,0F
                                 db 6,6,0F,6,6,0F,0F,0F
+prompt_abajo db "Tecla ABAJO$"
+prompt_derecha db "Tecla DERECHA$"
+prompt_izquierda db "Tecla IZQUIERDA$"
+prompt_arriba db "Tecla ARRIBA$"
 mapa              db   3e8 dup (0)
 iniciar_juego db "INICIAR JUEGO$"
 cargar_nivel  db "CARGAR NIVEL$"
@@ -96,6 +101,13 @@ derechaTitulo     db "Derecha :$"
 cambiarControlTitle     db "  Cambiar  Controles$"
 back     db "   Regresar$"
 exitPause     db "  E X I T$"
+
+
+stringcontrol_abajo     db " a$"
+stringcontrol_derecha     db " b$"
+stringcontrol_izquierda     db " c$"
+stringcontrol_arriba     db " d$"
+
 ;; JUEGO
 xJugador      db 2
 yJugador      db 2
@@ -111,7 +123,7 @@ control_abajo     db  50
 control_izquierda db  4b
 control_derecha   db  4d
 
-str_control_arriba db " ",0ah,"$"
+str_control_arriba db "W",0ah,"$"
 ; mov str_control_arriba[0] , AL
 ;; NIVELES
 nivel_x           db  "./NIV.TXT",00
@@ -676,16 +688,16 @@ fin_pintar_mapa:
 		mov [opcion], AL      ;; reinicio de la variable de salida
 		mov AL, 2
 		mov [maximo], AL
-		mov AX, 50  ; COL
-		mov BX, 78 ; FILA
+		mov AX, 50
+		mov BX, 78
 		mov [xFlecha], AX
 		mov [yFlecha], BX
-		;; IMPRIMIR OPCIONES ;;
+	;; IMPRIMIR OPCIONES ;;
 		;;;; INICIAR JUEGO
-		mov DL, 0A
-		mov DH, 05
+		mov DL, 0A  ; columna 12
+		mov DH, 03  ;fila 1
 		mov BH, 00
-		mov AH, 02
+		mov AH, 02 
 		int 10
 		;; <<-- posicionar el cursor
 		push DX
@@ -694,7 +706,14 @@ fin_pintar_mapa:
 		int 21
 		pop DX
 		;;
-		;;;; CARGAR NIVEL
+
+		add DH, 01
+		mov BH, 00
+		mov AH, 02
+		int 10
+
+ 
+		;;;; ARRIBA: 
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -704,8 +723,15 @@ fin_pintar_mapa:
 		mov AH, 09
 		int 21
 		pop DX
+
+		; imprimiendo el caracter correspondiente
+		push DX
+		mov DX, offset stringcontrol_arriba
+		mov AH, 09
+		int 21
+		pop DX 
 		;;
-		;;;; PUNTAJES ALTOS
+		;;;; ABAJO: 
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -715,8 +741,15 @@ fin_pintar_mapa:
 		mov AH, 09
 		int 21
 		pop DX
+
+			; imprimiendo el caracter correspondiente
+		push DX
+		mov DX, offset stringcontrol_abajo
+		mov AH, 09
+		int 21
+		pop DX
 		;;
-		;;;; CONFIGURACION
+		;;;; izquierda
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -726,8 +759,15 @@ fin_pintar_mapa:
 		mov AH, 09
 		int 21
 		pop DX
+
+			; imprimiendo el caracter correspondiente
+		push DX
+		mov DX, offset stringcontrol_izquierda
+		mov AH, 09
+		int 21
+		pop DX
 		;;
-		;;;; SALIR
+		;;;; DERECHA:
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -737,8 +777,27 @@ fin_pintar_mapa:
 		mov AH, 09
 		int 21
 		pop DX
+
+			; imprimiendo el caracter correspondiente
+		push DX
+		mov DX, offset stringcontrol_derecha
+		mov AH, 09
+		int 21
+		pop DX
+
+		add DH, 01
+		mov BH, 00
+		mov AH, 02
+		int 10
+
+		; mov DL, 0A  ; columna 12
+		; mov DH, 09  ;fila 1
+		; mov BH, 00
+		; mov AH, 02 
+		; int 10
+
 		
-        ;;;; SALIR
+		;;;; CAMBIAR CONTROLES:
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -748,7 +807,7 @@ fin_pintar_mapa:
 		mov AH, 09
 		int 21
 		pop DX
-        ;;;; SALIR
+		;;;; REGRESAR:
 		add DH, 02
 		mov BH, 00
 		mov AH, 02
@@ -757,7 +816,10 @@ fin_pintar_mapa:
 		mov DX, offset back
 		mov AH, 09
 		int 21
-		pop DX 
+		pop DX
+
+		
+		;;;;
 		call pintar_flecha
 		;;;;
 		;; LEER TECLA
@@ -817,10 +879,70 @@ fin_pintar_mapa:
 		call pintar_flecha
 		jmp entrada_menu_config
 		;;
+
+	changeControls:
+    mov DL, 05  ; columna 12
+    mov DH, 01  ;fila 1
+    mov BH, 00
+    mov AH, 02 
+    int 10
+        ;; <<-- posicionar el cursor
+
+    call clear_pantalla
+    mPrint prompt_abajo
+    mov ah, 00
+    int 16
+    mov control_abajo, ah
+    mov stringcontrol_abajo[0], al
+
+        mov DL, 05  ; columna 12
+    mov DH, 01  ;fila 1
+    mov BH, 00
+    mov AH, 02 
+    int 10
+        ;; <<-- posicionar el cursor
+
+    call clear_pantalla
+    mPrint prompt_arriba
+    mov ah, 00
+    int 16
+    mov control_arriba, ah
+    mov stringcontrol_arriba[0], al
+
+        mov DL, 05  ; columna 12
+    mov DH, 01  ;fila 1
+    mov BH, 00
+    mov AH, 02 
+    int 10
+        ;; <<-- posicionar el cursor
+ 
+    call clear_pantalla
+    mPrint prompt_derecha
+    mov ah, 00
+    int 16
+    mov control_derecha, ah
+    mov stringcontrol_derecha[0], al
+
+        mov DL, 05  ; columna 12
+    mov DH, 01  ;fila 1
+    mov BH, 00
+    mov AH, 02 
+    int 10
+        ;; <<-- posicionar el cursor
+ 
+    call clear_pantalla
+    mPrint prompt_izquierda
+    mov ah, 00
+    int 16
+    mov control_izquierda, ah
+    mov stringcontrol_izquierda[0], al 
+ 
+    jmp callmenuConfig
+
     fin_menu_config:
 		; comprobar la entada
 		cmp [opcion], 0
-		je setTeclas
+		je changeControls
 		cmp [opcion], 1
 		je sendMenu
 		; ret
