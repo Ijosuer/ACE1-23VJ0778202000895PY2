@@ -5,6 +5,7 @@ PARED       equ      02
 CAJA        equ      03
 OBJETIVO    equ      04
 SUELO       equ      05
+CAJAOBJETIVO equ     06	
 .MODEL SMALL
 .RADIX 16
 .STACK
@@ -46,42 +47,42 @@ data_sprite_suelo db   5c, 5c, 5c, 5c, 5c, 5c, 5c, 5c
                              db   5c, 5c, 5c, 5c, 5c, 5c, 5c, 5c
                              db   5c, 5c, 5c, 5c, 5c, 5c, 5c, 5c
 dim_sprite_pared  db   08, 08
-data_sprite_pared db   35, 35, 0f, 0f, 35, 35, 0f, 0f
-                             db   35, 0f, 0f, 35, 35, 0f, 0f, 35
-                             db   0f, 0f, 35, 35, 0f, 0f, 35, 35
-                             db   0f, 35, 35, 0f, 0f, 35, 35, 0f
-                             db   35, 35, 0f, 0f, 35, 35, 0f, 0f
-                             db   35, 0f, 0f, 35, 35, 0f, 0f, 35
-                             db   0f, 0f, 35, 35, 0f, 0f, 35, 35
-                             db   0f, 35, 35, 0f, 0f, 35, 35, 0f
+data_sprite_pared db   6,6,0,0,0,6,6,6 
+                             db   0,0,0,0,0,0,0,0
+                             db   6,6,6,0,0,6,6,6
+                             db   6,6,6,0,0,6,6,6
+                             db   6,6,6,0,0,6,6,6
+                             db   0,0,0,0,0,0,0,0
+                             db   6,6,6,0,0,6,6,6
+                             db   0,0,0,0,0,0,0,0 
 dim_sprite_caja   db   08, 08
 data_sprite_caja  db  5c,5c,5c,5c,5c,5c,5c,5c
-                           db  5c,5c,0b8,0b8,0b8,0b8,5c,5c
-                           db  5c,0b8,8a,8a,8a,8a,0b8,5c
-                           db  5c,0b8,8a,8a,8a,8a,0b8,5c
-                           db  5c,0b8,8a,8a,8a,8a,0b8,5c
-                           db  5c,0b8,8a,8a,8a,8a,0b8,5c
-                           db  5c,5c,0b8,0b8,0b8,0b8,5c,5c
+                           db  5c,5c,30,30,30,30,5c,5c
+                           db  5c,30,2,2,2,2,30,5c
+                           db  5c,30,2,2,2,2,30,5c
+                           db  5c,30,2,2,2,2,30,5c
+                           db  5c,30,2,2,2,2,30,5c
+                           db  5c,5c,30,30,30,30,5c,5c
                            db  5c,5c,5c,5c,5c,5c,5c,5c
 dim_sprite_obj    db   08, 08
-data_sprite_obj   db  5c,5c,5c,5c,5c,5c,5c,5c
-                           db  5c,28,5c,5c,5c,5c,28,5c
-                           db  5c,5c,28,5c,5c,28,5c,5c
-                           db  5c,5c,5c,28,28,5c,5c,5c
-                           db  5c,5c,5c,28,28,5c,5c,5c
-                           db  5c,5c,28,5c,5c,28,5c,5c
-                           db  5c,28,5c,5c,5c,5c,28,5c
-                           db  5c,5c,5c,5c,5c,5c,5c,5c
+data_sprite_obj   db  0,2A,2A,2A,2A,2A,2A,2A
+                           db  2A,0E,0E,0E,0E,0E,0E,0E
+                           db  2A,0E,0E,2A,2A,0E,0E,0E
+                           db  2A,0E,2A,0E,0E,2A,0E,0E
+                           db  2A,0E,2A,0E,0E,2A,0E,0E
+                           db  2A,0E,0E,0E,2A,0E,0E,0E
+                           db  2A,0E,0E,0E,0E,0E,0E,0E
+                           db  2A,0E,0E,0E,2A,0E,0E,0E
 
 dim_sprite_mario    db   08, 08
-data_sprite_mario   db 0F,40,40,40,40,40,0F,0F
-                                db 40,40,40,40,40,40,40,0F
-                                db 6,42,42,42,42,42,42,0F
-                                db 42,42,0,0,42,42,42,0F
-                                db 6,42,42,0,0,0,0F,0F
-                                db 40,53,40,53,40,0F,0F,0F
-                                db 0F,53,53,53,0F,0F,0F,0F
-                                db 6,6,0F,6,6,0F,0F,0F
+data_sprite_mario   db 5C,28,28,28,28,5C,5C,5C
+                                db 28,28,28,28,28,28,5C,5C
+                                db 6,59,59,59,59,5C,5C,5C
+                                db 59,59,0,0,59,59,5C,5C
+                                db 6,59,59,0,0,5C,5C,5C
+                                db 28,37,28,37,28,5C,5C,5C
+                                db 5C,37,37,37,5C,5C,5C,5C
+                                db 6,6,5C,6,6,5C,5C,5C
 prompt_abajo db "Tecla ABAJO$"
 prompt_derecha db "Tecla DERECHA$"
 prompt_izquierda db "Tecla IZQUIERDA$"
@@ -93,25 +94,32 @@ configuracion db "CONFIGURACION$"
 puntajes      db "PUNTAJES ALTOS$"
 salir         db "SALIR$"
 iniciales     db "JRGR - 202000895$"
+nombre     db "Josue R. Gramajo R. - 202000895$"
+curso     db "[ACE1] - PY2$"
+newline db 0Ah, '$' ; Carácter de nueva línea
 configTitulo     db "  Controles actuales$"
-arribaTitulo     db "Arriba 	  :$"
-abajoTitulo     db "Abajo 	   :$"
-izqTitulo          db "Izquierda :$"
-derechaTitulo     db "Derecha :$"
+arribaTitulo     db "Arriba:$"
+abajoTitulo     db "Abajo:$"
+izqTitulo          db "Izquierda:$"
+derechaTitulo     db "Derecha:$"
 cambiarControlTitle     db "  Cambiar  Controles$"
 back     db "   Regresar$"
 exitPause     db "  E X I T$"
+contadorWin db 0;ove_up
 
 
-stringcontrol_abajo     db " a$"
-stringcontrol_derecha     db " b$"
-stringcontrol_izquierda     db " c$"
-stringcontrol_arriba     db " d$"
+stringcontrol_abajo     db "$"
+stringcontrol_derecha     db "$"
+stringcontrol_izquierda     db "$"
+longitud_cadena equ $-stringcontrol_izquierda
+stringcontrol_arriba     db "$"
 
 ;; JUEGO
 xJugador      db 2
 yJugador      db 2
 puntos        dw 0
+flagHayX db 0
+contNivelitos db 0
 ;; MENÚS
 opcion        db 0
 maximo        db 0
@@ -126,7 +134,7 @@ control_derecha   db  4d
 str_control_arriba db "W",0ah,"$"
 ; mov str_control_arriba[0] , AL
 ;; NIVELES
-nivel_x           db  "./NIV.TXT",00
+nivel_x           db  "./NIV.00",00
 handle_nivel      dw  0000
 linea             db  100 dup (0)
 elemento_actual   db  0
@@ -147,7 +155,29 @@ inicio:
     ;; MODO VIDEO ;;
 		mov AH, 00
 		mov AL, 13
-		int 10
+		int 10 
+        mov DL, 05
+        mov DH, 09
+        mov BH, 00
+        mov AH, 02
+        int 10 
+
+        mPrint nombre  
+        mov DL, 05
+        mov DH, 11
+        mov BH, 00
+        mov AH, 02
+        int 10
+        mPrint curso
+        ; haciendo un for para un delay algo largo
+        xor si, si 
+        cfor:
+            cmp si, 0C
+            je exitfor
+            call delay 
+            inc si
+            jmp cfor 
+        exitfor:
 		;;;;;;;;;;;;;;;;
 		call menu_principal
 
@@ -156,7 +186,7 @@ inicio:
 		mov AL, [opcion]
 		;; > INICIAR JUEGO
 		cmp AL, 0
-		je ciclo_juego
+		je cargar_un_nivel
 		;; > CARGAR NIVEL
 		cmp AL, 1
 		je cargar_un_nivel
@@ -171,7 +201,6 @@ inicio:
 
 		;;;;;;;;;;;;;;;;
 ciclo_juego:
-        ; call mapa_quemado
 		call pintar_mapa
 		call entrada_juego
 		jmp ciclo_juego
@@ -241,6 +270,7 @@ es_suelo:
 		mov [elemento_actual], AL
 		jmp continuar_parseo0
 es_objetivo:
+		inc contadorWin ; aumento las 
 		mov AL, OBJETIVO
 		mov [elemento_actual], AL
 		jmp continuar_parseo0
@@ -323,7 +353,6 @@ fin_parseo:
 		mov BX, [handle_nivel]
 		int 21
 		;;
-		int 03
 		jmp ciclo_juego
 		jmp fin
     ; clear_pantalla - limpia la pantalla
@@ -522,7 +551,7 @@ fin_parseo:
 		mov AX, [xFlecha]
 		mov BX, [yFlecha]
 		mov SI, offset dim_sprite_flcha
-		mov DI, offset data_sprite_mario
+		mov DI, offset data_sprite_flcha
 		call pintar_sprite
 		ret
 
@@ -569,6 +598,9 @@ fin_parseo:
 		pop DI
 		ret
 
+;; pintar_mapa - pinta los elementos del mapa
+;; ENTRADA:
+;; SALIDA:
 pintar_mapa:
 		mov AL, 00   ;; fila
 		;;
@@ -598,6 +630,9 @@ ciclo_h:
 		;;
                 cmp DL, OBJETIVO
 		je pintar_objetivo_mapa
+        ;;
+                cmp DL, CAJAOBJETIVO
+		je pintar_caja_mapa
 		;;
                 cmp DL, SUELO
 		je pintar_suelo_mapa
@@ -623,7 +658,7 @@ pintar_jugador_mapa:
 		push AX
 		call adaptar_coordenada
 		mov SI, offset dim_sprite_jug
-		mov DI, offset data_sprite_jug
+		mov DI, offset data_sprite_mario
 		call pintar_sprite
 		pop AX
 		jmp continuar_h
@@ -682,7 +717,7 @@ fin_pintar_mapa:
 
     callmenuConfig:
         call menuConfig
-    menuConfig: 
+menuConfig: 
 		call clear_pantalla
 		mov AL, 0
 		mov [opcion], AL      ;; reinicio de la variable de salida
@@ -934,7 +969,8 @@ fin_pintar_mapa:
     mPrint prompt_izquierda
     mov ah, 00
     int 16
-    mov control_izquierda, ah
+    mov control_izquierda, ah 
+	limpiar_databyte offset stringcontrol_izquierda, longitud_cadena
     mov stringcontrol_izquierda[0], al 
  
     jmp callmenuConfig
@@ -1195,103 +1231,575 @@ entrada_juego:
 		je mover_jugador_izq
 		cmp AH, [control_derecha]
 		je mover_jugador_der
-		cmp AH, 3C  ; poner pausa 
+		cmp AH, 3C  ; poner pausa
 		je menuPause
 		ret
-mover_jugador_arr:
-		mov AH, [xJugador]
-		mov AL, [yJugador]
-		dec AL
-		push AX
-		call obtener_de_mapa
-		pop AX
-		;; DL <- elemento en mapa
-		cmp DL, PARED
-		je hay_pared_arriba
-		mov [yJugador], AL
-		;;
-		mov DL, JUGADOR
-		push AX
-		call colocar_en_mapa
-		pop AX
-		;;
-		mov DL, SUELO
-		inc AL
-		call colocar_en_mapa
-		ret
-hay_pared_arriba:
-		ret
-mover_jugador_aba:
-		mov AH, [xJugador]
-		mov AL, [yJugador]
-		inc AL
-		push AX
-		call obtener_de_mapa
-		pop AX
-		;; DL <- elemento en mapa
-		cmp DL, PARED
-		je hay_pared_abajo
-		mov [yJugador], AL
-		;;
-		mov DL, JUGADOR
-		push AX
-		call colocar_en_mapa
-		pop AX
-		;;
-		mov DL, SUELO
-		dec AL
-		call colocar_en_mapa
-		ret
-hay_pared_abajo:
-		ret
-mover_jugador_izq:
-		mov AH, [xJugador]
-		mov AL, [yJugador]
-		dec AH
-		push AX
-		call obtener_de_mapa
-		pop AX
-		;; DL <- elemento en mapa
-		cmp DL, PARED
-		je hay_pared_izquierda
-		mov [xJugador], AH
-		;;
-		mov DL, JUGADOR
-		push AX
-		call colocar_en_mapa
-		pop AX
-		;;
-		mov DL, SUELO
-		inc AH
-		call colocar_en_mapa
-		ret
-hay_pared_izquierda:
-		ret
-mover_jugador_der:
-		mov AH, [xJugador]
-		mov AL, [yJugador]
-		inc AH
-		push AX
-		call obtener_de_mapa
-		pop AX
-		;; DL <- elemento en mapa
-		cmp DL, PARED
-		je hay_pared_derecha
-		mov [xJugador], AH
-		;;
-		mov DL, JUGADOR
-		push AX
-		call colocar_en_mapa
-		pop AX
-		;;
-		mov DL, SUELO
-		dec AH
-		call colocar_en_mapa
-		ret
-hay_pared_derecha:
+	mover_jugador_arr:
+			mov AH, [xJugador] ;posicion x de jugador
+			mov AL, [yJugador] ;posicion y de jugador
+			dec AL             ; se mueve arriba
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;; DL <- elemento en mapa
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_caja_arriba
+			cmp DL, OBJETIVO 
+			je hay_objetivo_arriba
+			cmp DL, CAJAOBJETIVO 
+			je hay_cajaobjetivo_arriba
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			;;
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_arriba
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	hay_pared_arriba:
+			ret
+	hay_cajaobjetivo_arriba:
+			;revisar si hay algo arriba 
+			dec AL
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_cajaObj_arriba
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_arriba
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			inc [flagHayX]
+			ret
+	hay_caja_arriba:
+			;revisar si hay algo arriba 
+			dec AL
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_cajaObj_arriba
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_arriba
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	poner_cajaObj_arriba:
+			;mover cajaObjetivo, mover jugador, poner suelo
+			mov DL, CAJAOBJETIVO             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_arriba
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			dec contadorWin
+			cmp contadorWin, 0 ; si ya gano
+			je lvls
+			ret
+	hay_objetivo_arriba:
+			inc [flagHayX]
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			;;
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	pintar_objetivo_arriba:
+			mov [flagHayX], 00      ;ponemos la flag en false
+			mov DL, OBJETIVO            ;ponemos suelo en dl 
+			inc AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+			
+	mover_jugador_aba:
+			mov AH, [xJugador]
+			mov AL, [yJugador]
+			inc AL
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;; DL <- elemento en mapa
+			cmp DL, PARED
+			je hay_pared_abajo
+			cmp DL, CAJA
+			je hay_caja_abajo
+			cmp DL, OBJETIVO 
+			je hay_objetivo_abajo
+			cmp DL, CAJAOBJETIVO 
+			je hay_cajaobjetivo_abajo
+			mov [yJugador], AL
+			;;
+			mov DL, JUGADOR
+			push AX
+			call colocar_en_mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00
+			jne pintar_objetivo_abajo
+			;;
+			mov DL, SUELO
+			dec AL
+			call colocar_en_mapa
+			ret
+	hay_pared_abajo:
+			ret
+	hay_cajaobjetivo_abajo:
+			;revisar si hay algo arriba 
+			inc AL
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_cajaObj_abajo
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_abajo
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			inc [flagHayX]
+			ret
+	hay_caja_abajo:
+			;revisar si hay algo arriba 
+			inc AL
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_cajaObj_abajo
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_abajo
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	poner_cajaObj_abajo:
+			mov DL, CAJAOBJETIVO             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AL 
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_abajo
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			dec contadorWin
+			cmp contadorWin, 0 ; si ya gano
+			je lvls
+			ret
+	hay_objetivo_abajo:
+			inc [flagHayX]
+			mov [yJugador], AL          ;cambiamos posicion de jugador
+			;;
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	pintar_objetivo_abajo:
+			mov [flagHayX], 00      ;ponemos la flag en false
+			mov DL, OBJETIVO            ;ponemos suelo en dl 
+			dec AL                      ;lo ponemos en posicion anterior (abajo)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	mover_jugador_izq:
+			mov AH, [xJugador]
+			mov AL, [yJugador]
+			dec AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;; DL <- elemento en mapa
+			cmp DL, PARED
+			je hay_pared_izquierda
+			cmp DL, CAJA
+			je hay_caja_izquierda
+			cmp DL, OBJETIVO
+			je hay_objetivo_izquierda
+			cmp DL, CAJAOBJETIVO
+			je hay_cajaobjetivo_izquierda
+			mov [xJugador], AH
+			;;
+			mov DL, JUGADOR
+			push AX
+			call colocar_en_mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00
+			jne pintar_objetivo_izquierda
+			;;
+			mov DL, SUELO
+			inc AH
+			call colocar_en_mapa
+			ret
+	hay_pared_izquierda:
+			ret
+	hay_cajaobjetivo_izquierda:
+			;revisar si hay algo izq 
+			dec AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO 
+			je poner_paredObjetivo_izq
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_izquierda
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			inc [flagHayX]
+			ret
+	hay_caja_izquierda:
+			;revisar si hay algo izq 
+			dec AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO 
+			je poner_paredObjetivo_izq
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_izquierda
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	poner_paredObjetivo_izq:
+			mov DL, CAJAOBJETIVO             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			inc AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_izquierda
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa
+			dec contadorWin 
+			cmp contadorWin, 0 ; si ya gano
+			je lvls
+			ret
+	hay_objetivo_izquierda:
+			inc [flagHayX]
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			;;
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			inc AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	pintar_objetivo_izquierda:
+			mov [flagHayX], 00      ;ponemos la flag en false
+			mov DL, OBJETIVO            ;ponemos suelo en dl 
+			inc AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	mover_jugador_der:
+			mov AH, [xJugador]
+			mov AL, [yJugador]
+			inc AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;; DL <- elemento en mapa
+			cmp DL, PARED
+			je hay_pared_derecha
+			cmp DL, CAJA
+			je hay_caja_derecha
+			cmp DL, OBJETIVO
+			je hay_objetivo_der
+			cmp DL, CAJAOBJETIVO
+			je hay_cajaobjetivo_der
+			mov [xJugador], AH
+			;;
+			mov DL, JUGADOR
+			push AX
+			call colocar_en_mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00
+			jne pintar_objetivo_der
+			;;
+			mov DL, SUELO
+			dec AH
+			call colocar_en_mapa
+			ret
+	hay_pared_derecha:
+			ret
+	hay_cajaobjetivo_der:
+			;revisar si hay algo izq 
+			inc AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_paredObjetivo_der
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_der
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			inc [flagHayX]
+			ret
+	hay_caja_derecha:
+			;revisar si hay algo izq 
+			inc AH
+			push AX
+			call obtener_de_mapa
+			pop AX
+			;si lo hay ret
+			cmp DL, PARED 
+			je hay_pared_arriba
+			cmp DL, CAJA 
+			je hay_pared_arriba
+			cmp DL, OBJETIVO
+			je poner_paredObjetivo_der
+			;si no lo hay, mover caja, mover jugador, poner suelo
+			mov DL, CAJA             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_der
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	poner_paredObjetivo_der:
+			mov DL, CAJAOBJETIVO             ;ponemos a caja en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;movemos jugador
+			dec AH 
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			cmp [flagHayX], 00      ;revisamos si flagHayX es true
+			jne pintar_objetivo_der
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			dec contadorWin
+			cmp contadorWin, 0 ; si ya gano
+			je lvls
+			ret
+	hay_objetivo_der:
+			inc [flagHayX]
+			mov [xJugador], AH          ;cambiamos posicion de jugador
+			;;
+			mov DL, JUGADOR             ;ponemos a jugador en registro dl
+			push AX
+			call colocar_en_mapa        ;lo pintamos en el mapa
+			pop AX
+			;;
+			mov DL, SUELO               ;ponemos suelo en dl 
+			dec AH                      ;lo ponemos en posicion anterior (izq)
+			call colocar_en_mapa        ;pintamos en el mapa 
+			ret
+	pintar_objetivo_der:
+        mov [flagHayX], 00      ;ponemos la flag en false
+        mov DL, OBJETIVO            ;ponemos suelo en dl 
+		dec AH                      ;lo ponemos en posicion anterior (izq)
+		call colocar_en_mapa        ;pintamos en el mapa 
 		ret
 fin_entrada_juego:
 		ret
+
     
 
 ;; memset - memset
@@ -1506,6 +2014,38 @@ fin_ignorar:
         mov ax, 0000
         call menu_principal
 		jmp check
+
+lvls:
+		cmp contNivelitos, 0
+		je lvlone
+		cmp contNivelitos, 1
+		je lvltwo
+		cmp contNivelitos, 2
+		je cleanGame 
+	lvlone:	
+		inc contNivelitos
+		mov contadorWin, 0000
+		mov DI , offset mapa
+		mov CX, 3e8
+		mov AL, 00000
+		call memset
+		mov nivel_x[7], "1"
+		jmp cargar_un_nivel
+	lvltwo:	
+		inc contNivelitos
+		mov contadorWin, 0000
+		mov DI , offset mapa
+		mov CX, 3e8
+		mov AL, 00000
+		mov nivel_x[6], "1"
+		mov nivel_x[7], "0"
+		call memset
+		jmp cargar_un_nivel
+
+	cleanGame:
+		mov contadorWin, 0000
+		mov contNivelitos, 0000
+		jmp menu_principal
 	fin:
 .EXIT
 END
