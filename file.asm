@@ -717,7 +717,7 @@ fin_pintar_mapa:
 
     callmenuConfig:
         call menuConfig
-menuConfig: 
+	menuConfig: 
 		call clear_pantalla
 		mov AL, 0
 		mov [opcion], AL      ;; reinicio de la variable de salida
@@ -916,64 +916,64 @@ menuConfig:
 		;;
 
 	changeControls:
-    mov DL, 05  ; columna 12
-    mov DH, 01  ;fila 1
-    mov BH, 00
-    mov AH, 02 
-    int 10
-        ;; <<-- posicionar el cursor
+		mov DL, 05  ; columna 12
+		mov DH, 01  ;fila 1
+		mov BH, 00
+		mov AH, 02 
+		int 10
+			;; <<-- posicionar el cursor
 
-    call clear_pantalla
-    mPrint prompt_abajo
-    mov ah, 00
-    int 16
-    mov control_abajo, ah
-    mov stringcontrol_abajo[0], al
+		call clear_pantalla
+		mPrint prompt_abajo
+		mov ah, 00
+		int 16
+		mov control_abajo, ah
+		mov stringcontrol_abajo[0], al
 
-        mov DL, 05  ; columna 12
-    mov DH, 01  ;fila 1
-    mov BH, 00
-    mov AH, 02 
-    int 10
-        ;; <<-- posicionar el cursor
+			mov DL, 05  ; columna 12
+		mov DH, 01  ;fila 1
+		mov BH, 00
+		mov AH, 02 
+		int 10
+			;; <<-- posicionar el cursor
 
-    call clear_pantalla
-    mPrint prompt_arriba
-    mov ah, 00
-    int 16
-    mov control_arriba, ah
-    mov stringcontrol_arriba[0], al
+		call clear_pantalla
+		mPrint prompt_arriba
+		mov ah, 00
+		int 16
+		mov control_arriba, ah
+		mov stringcontrol_arriba[0], al
 
-        mov DL, 05  ; columna 12
-    mov DH, 01  ;fila 1
-    mov BH, 00
-    mov AH, 02 
-    int 10
-        ;; <<-- posicionar el cursor
- 
-    call clear_pantalla
-    mPrint prompt_derecha
-    mov ah, 00
-    int 16
-    mov control_derecha, ah
-    mov stringcontrol_derecha[0], al
+			mov DL, 05  ; columna 12
+		mov DH, 01  ;fila 1
+		mov BH, 00
+		mov AH, 02 
+		int 10
+			;; <<-- posicionar el cursor
+	
+		call clear_pantalla
+		mPrint prompt_derecha
+		mov ah, 00
+		int 16
+		mov control_derecha, ah
+		mov stringcontrol_derecha[0], al
 
-        mov DL, 05  ; columna 12
-    mov DH, 01  ;fila 1
-    mov BH, 00
-    mov AH, 02 
-    int 10
-        ;; <<-- posicionar el cursor
- 
-    call clear_pantalla
-    mPrint prompt_izquierda
-    mov ah, 00
-    int 16
-    mov control_izquierda, ah 
-	limpiar_databyte offset stringcontrol_izquierda, longitud_cadena
-    mov stringcontrol_izquierda[0], al 
- 
-    jmp callmenuConfig
+			mov DL, 05  ; columna 12
+		mov DH, 01  ;fila 1
+		mov BH, 00
+		mov AH, 02 
+		int 10
+			;; <<-- posicionar el cursor
+	
+		call clear_pantalla
+		mPrint prompt_izquierda
+		mov ah, 00
+		int 16
+		mov control_izquierda, ah 
+		limpiar_databyte offset stringcontrol_izquierda, longitud_cadena
+		mov stringcontrol_izquierda[0], al 
+	
+		jmp callmenuConfig
 
     fin_menu_config:
 		; comprobar la entada
@@ -2046,6 +2046,7 @@ lvls:
 		mov contadorWin, 0000
 		mov contNivelitos, 0000
 		jmp menu_principal
+		
 	fin:
 .EXIT
 END
